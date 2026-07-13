@@ -1,0 +1,66 @@
+# Gradle files
+.gradle/
+gradle/
+gradlew
+gradlew.bat
+local.properties
+*.iml
+*.iws
+*.ipr
+.idea/
+/build/
+/captures/
+.externalNativeBuild/
+.cxx/
+
+# OS specific
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Keystore files (security)
+*.jks
+*.keystore
+*.key
+google-services.json
+google-services.json.*
+
+# Generated files
+*.apk
+*.ap_
+*.dex
+*.class
+bin/
+gen/
+out/
+release/
+debug/
+
+# Android Native
+*.so
+*.dylib
+*.dll
+
+# JNI
+*.h
+*.c
+*.cpp
+jni/
+
+# Logs and temp
+*.log
+*.tmp
+*.temp
+
+# Firebase
+GoogleService-Info.plist
+
+# Fabric/Crashlytics
+fabric.properties
+
+# Properties files (except sample)
+*.properties
+!gradle.properties
+!local.properties.sample
