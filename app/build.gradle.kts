@@ -5,11 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.sabbo"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.example.sabbo"
@@ -23,6 +19,7 @@ android {
 
     buildTypes {
         release {
+            isMinifyEnabled = false  // TODO: при release сделать true
             optimization {
                 enable = false
             }
