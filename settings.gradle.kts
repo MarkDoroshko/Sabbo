@@ -24,4 +24,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Sabbo"
 include(":app")
- 
+include(":domain")
