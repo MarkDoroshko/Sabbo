@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Sabbo</string>
+    <string name="app_title">Саббо</string>
+    <string name="feed_subtitle_all_topics">СЕГОДНЯ · %d МАТЕРИАЛОВ</string>
+    <string name="feed_subtitle_specific_topic">ТЕМА — %s</string>
+    <string name="topics_subtitle">ПОДПИСКИ</string>
+    <string name="settings_subtitle">НАСТРОЙКИ</string>
+    <string name="refresh_articles">Обновить статьи</string>
+    <string name="clear_articles">Очистить статьи</string>
 </resources>

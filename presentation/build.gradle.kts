@@ -7,9 +7,7 @@ plugins {
 
 android {
     namespace = "com.example.presentation"
-    compileSdk {
-        version = release(37)
-    }
+    compileSdk = 37
 
     defaultConfig {
         minSdk = 30
@@ -41,6 +39,7 @@ dependencies {
     implementation(libs.androidx.compose.ui)  // Базовые UI-компоненты Compose
     implementation(libs.androidx.compose.ui.graphics)  // Графические примитивы Compose
     implementation(libs.androidx.compose.ui.tooling.preview)  // Предпросмотр @Composable в Android Studio
+    debugImplementation(libs.androidx.compose.ui.tooling)  // Рендерер превью (ComposeViewAdapter)
     implementation(libs.androidx.compose.material3)  // Компоненты Material Design 3
     implementation(libs.androidx.compose.material.icons.extended) // Расширенный набор иконок Material
 
