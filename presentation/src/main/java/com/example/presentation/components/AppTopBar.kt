@@ -86,7 +86,7 @@ fun AppTopBar(
     )
 }
 
-@Preview(name = "Light", showBackground = true, apiLevel = 36)
+@Preview(name = "Light", showBackground = true)
 @Composable
 private fun AppTopBarLightPreview() {
     SabboTheme(darkTheme = false) {
@@ -98,7 +98,7 @@ private fun AppTopBarLightPreview() {
     }
 }
 
-@Preview(name = "Dark", showBackground = true, apiLevel = 36)
+@Preview(name = "Dark", showBackground = true)
 @Composable
 private fun AppTopBarDarkPreview() {
     SabboTheme(darkTheme = true) {

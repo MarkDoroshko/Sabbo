@@ -7,4 +7,7 @@
     <string name="settings_subtitle">НАСТРОЙКИ</string>
     <string name="refresh_articles">Обновить статьи</string>
     <string name="clear_articles">Очистить статьи</string>
+    <string name="feed_tab">Лента</string>
+    <string name="topics_tab">Темы</string>
+    <string name="settings_tab">Настройки</string>
 </resources>
