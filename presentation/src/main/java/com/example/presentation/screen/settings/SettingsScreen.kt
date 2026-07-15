@@ -1,6 +1,9 @@
 package com.example.presentation.screen.settings
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.background
@@ -49,11 +52,24 @@ fun SettingsRoute(
     val viewModel: SettingsViewModel = hiltViewModel()
     val settings by viewModel.settings.collectAsStateWithLifecycle()
 
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission(),
+        onResult = {
+            viewModel.updateNotificationsEnabled(it)
+        }
+    )
+
     SettingsScreen(
         settings = settings,
         onLanguageSelected = viewModel::updateLanguage,
         onIntervalSelected = viewModel::updateInterval,
-        onNotificationsEnabledChanged = viewModel::updateNotificationsEnabled,
+        onNotificationsEnabledChanged = { enabled ->
+            if (enabled) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                    permissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+                } else viewModel.updateNotificationsEnabled(true)
+            } else viewModel.updateNotificationsEnabled(false)
+        },
         onWifiOnlyChanged = viewModel::updateWifiOnly,
         modifier = modifier
     )

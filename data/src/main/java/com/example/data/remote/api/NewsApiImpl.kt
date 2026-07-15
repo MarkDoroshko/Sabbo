@@ -10,7 +10,10 @@ import javax.inject.Inject
 class NewsApiImpl @Inject constructor(
     private val client: HttpClient
 ) : NewsApi {
-    override suspend fun getArticles(topic: String): NewsResponseDto {
-        return client.get("everything") { parameter("q", topic) }.body()
+    override suspend fun getArticles(topic: String, language: String): NewsResponseDto {
+        return client.get("everything") {
+            parameter("q", topic)
+            parameter("language", language)
+        }.body()
     }
 }

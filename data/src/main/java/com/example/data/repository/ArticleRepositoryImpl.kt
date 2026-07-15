@@ -13,8 +13,10 @@ import com.example.data.local.dao.TopicsDao
 import com.example.data.local.model.ArticleDbModel
 import com.example.data.mapper.toDbModels
 import com.example.data.mapper.toEntities
+import com.example.data.mapper.toQueryParam
 import com.example.data.remote.api.NewsApi
 import com.example.domain.entity.Article
+import com.example.domain.entity.Language
 import com.example.domain.entity.RefreshConfig
 import com.example.domain.repository.ArticleRepository
 import com.example.domain.repository.SettingsRepository
@@ -46,20 +48,20 @@ class ArticleRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateArticlesForTopic(topic: String): Boolean {
-        val articles = loadArticles(topic)
+    override suspend fun updateArticlesForTopic(topic: String, language: Language): Boolean {
+        val articles = loadArticles(topic, language)
         val ids = articlesDao.addArticles(articles)
         return ids.any { it != -1L }
     }
 
-    override suspend fun updateArticlesForAllTopics(): List<String> {
+    override suspend fun updateArticlesForAllTopics(language: Language): List<String> {
         val topics = topicsDao.getAllTopics().first()
 
         return supervisorScope {
             topics.map { topicModel ->
                 async {
                     try {
-                        if (updateArticlesForTopic(topicModel.topic)) topicModel.topic else null
+                        if (updateArticlesForTopic(topicModel.topic, language)) topicModel.topic else null
                     } catch (e: CancellationException) {
                         throw e
                     } catch (e: Exception) {
@@ -97,9 +99,9 @@ class ArticleRepositoryImpl @Inject constructor(
         )
     }
 
-    private suspend fun loadArticles(topic: String): List<ArticleDbModel> {
+    private suspend fun loadArticles(topic: String, language: Language): List<ArticleDbModel> {
         return try {
-            newsApi.getArticles(topic).toDbModels(topic)
+            newsApi.getArticles(topic, language.toQueryParam()).toDbModels(topic)
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {

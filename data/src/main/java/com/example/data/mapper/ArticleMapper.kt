@@ -5,6 +5,7 @@ import com.example.data.remote.dto.NewsResponseDto
 import com.example.domain.entity.Article
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.TimeZone
 
 fun List<ArticleDbModel>.toEntities(): List<Article> {
     return map {

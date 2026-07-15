@@ -1,0 +1,5 @@
+<resources>
+    <string name="new_articles">Новые статьи</string>
+    <string name="new_articles_notification_title">Новые статьи</string>
+    <string name="update_subscriptions">Обновлено %1$d тем: %2$s</string>
+</resources>
