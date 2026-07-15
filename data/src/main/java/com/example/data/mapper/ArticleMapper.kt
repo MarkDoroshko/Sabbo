@@ -37,5 +37,6 @@ fun NewsResponseDto.toDbModels(topic: String): List<ArticleDbModel> {
 
 private fun String.toTimestamp(): Long {
     val dateFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.getDefault())
+    dateFormatter.timeZone = TimeZone.getTimeZone("UTC")
     return dateFormatter.parse(this)?.time ?: System.currentTimeMillis()
 }

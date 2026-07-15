@@ -55,7 +55,7 @@ object NetworkModule {
                     val statusCode = response.status.value
                     if (statusCode >= 400) {
                         val body = response.body<String>()
-                        val errorDetails = parseErrorBody(body)
+                        val errorDetails = parseErrorBody(body, json)
 
                         throw AppHttpException(
                             code = statusCode,

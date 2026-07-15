@@ -10,10 +10,10 @@ data class ErrorResponse(
     val message: String
 )
 
-fun parseErrorBody(body: String?): ErrorResponse? {
+fun parseErrorBody(body: String?, json: Json): ErrorResponse? {
     return try {
         if (body.isNullOrBlank()) null
-        else Json.decodeFromString<ErrorResponse>(body)
+        else json.decodeFromString<ErrorResponse>(body)
     } catch (_: Exception) {
         null
     }
