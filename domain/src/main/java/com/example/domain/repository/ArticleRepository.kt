@@ -1,6 +1,7 @@
 package com.example.domain.repository
 
 import com.example.domain.entity.Article
+import com.example.domain.entity.RefreshConfig
 import kotlinx.coroutines.flow.Flow
 
 interface ArticleRepository {
@@ -13,4 +14,6 @@ interface ArticleRepository {
     suspend fun updateArticlesForAllTopics(): List<String>
 
     suspend fun clearAllArticles(topics: List<String>)
+
+    fun startBackgroundRefresh(refreshConfig: RefreshConfig)
 }

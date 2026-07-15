@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.androidx.room.runtime) // ORM для локальной SQLite базы данных
     ksp(libs.androidx.room.compiler) // Кодогенератор для Room
     implementation(libs.androidx.room.ktx) // Kotlin-расширения для Room (поддержка корутин и Flow)
+    ksp(libs.androidx.hilt.compiler)  // Кодогенератор
 
     // Ktor
     implementation(platform(libs.ktor.bom)) // BOM для согласования версий Ktor
@@ -58,11 +59,15 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android) // DI-фреймворк для Android
     ksp(libs.hilt.android.compiler) // Кодогенератор для Hilt
+    implementation(libs.androidx.hilt.work)  // Для Inject WorkManager
 
     implementation(libs.androidx.core.ktx)  // Kotlin-расширения для Android Core API
 
     // Preferences DataStore
     implementation(libs.androidx.datastore.preferences)
+
+    // WorkManager
+    implementation(libs.androidx.work.runtime.ktx)
 
     implementation(libs.androidx.appcompat)
     implementation(libs.material)

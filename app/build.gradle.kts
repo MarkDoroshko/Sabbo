@@ -41,6 +41,11 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+    implementation(libs.androidx.hilt.work)  // Для Inject WorkManager
+    ksp(libs.androidx.hilt.compiler)  // Кодогенератор
+
+    // WorkManager
+    implementation(libs.androidx.work.runtime.ktx)
 
     implementation(libs.androidx.core.ktx)
     testImplementation(libs.junit)
