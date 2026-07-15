@@ -10,11 +10,12 @@ import com.example.data.remote.api.NewsApi
 import com.example.domain.entity.Article
 import com.example.domain.repository.ArticleRepository
 import io.ktor.utils.io.CancellationException
-import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.supervisorScope
 import javax.inject.Inject
 
 class ArticleRepositoryImpl @Inject constructor(
@@ -22,6 +23,12 @@ class ArticleRepositoryImpl @Inject constructor(
     private val topicsDao: TopicsDao,
     private val articlesDao: ArticlesDao
 ) : ArticleRepository {
+    override fun getArticlesByTopic(topic: String): Flow<List<Article>> {
+        return articlesDao.getAllArticlesByTopic(topic).map { articleDbModels ->
+            articleDbModels.toEntities()
+        }
+    }
+
     override fun getArticlesByTopics(topics: List<String>): Flow<List<Article>> {
         return articlesDao.getAllArticlesByTopics(topics).map { articleDbModels ->
             articleDbModels.toEntities()
@@ -35,19 +42,22 @@ class ArticleRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateArticlesForAllTopics(): List<String> {
-        val updatedTopics = mutableListOf<String>()
-
         val topics = topicsDao.getAllTopics().first()
-        coroutineScope {
-            topics.forEach {
-                launch {
-                    val updated = updateArticlesForTopic(it.topic)
-                    if (updated) updatedTopics.add(it.topic)
-                }
-            }
-        }
 
-        return updatedTopics
+        return supervisorScope {
+            topics.map { topicModel ->
+                async {
+                    try {
+                        if (updateArticlesForTopic(topicModel.topic)) topicModel.topic else null
+                    } catch (e: CancellationException) {
+                        throw e
+                    } catch (e: Exception) {
+                        Log.e("ArticleRepositoryImpl", "topic=${topicModel.topic}", e)
+                        null
+                    }
+                }
+            }.awaitAll().filterNotNull()
+        }
     }
 
     override suspend fun clearAllArticles(topics: List<String>) {
@@ -57,12 +67,11 @@ class ArticleRepositoryImpl @Inject constructor(
     private suspend fun loadArticles(topic: String): List<ArticleDbModel> {
         return try {
             newsApi.getArticles(topic).toDbModels(topic)
+        } catch (e: CancellationException) {
+            throw e
         } catch (e: Exception) {
-            if (e is CancellationException) {
-                throw e
-            }
             Log.e("ArticleRepositoryImpl", e.stackTraceToString())
-            listOf()
+            throw e
         }
     }
 }

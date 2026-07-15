@@ -10,4 +10,15 @@
     <string name="feed_tab">Лента</string>
     <string name="topics_tab">Темы</string>
     <string name="settings_tab">Настройки</string>
+
+    <string name="topic_all_chip">Все темы</string>
+    <string name="feed_empty_title">Здесь пока пусто.</string>
+    <string name="feed_empty_subtitle">Обновите ленту, чтобы загрузить статьи.</string>
+    <string name="articles_cleared_message">Статьи очищены</string>
+    <string name="read_article">Читать</string>
+
+    <string name="time_just_now">только что</string>
+    <string name="time_minutes_ago">%d мин</string>
+    <string name="time_hours_ago">%d ч</string>
+    <string name="time_days_ago">%d д</string>
 </resources>

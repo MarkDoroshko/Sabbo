@@ -1,11 +1,13 @@
 package com.example.presentation.components
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -30,60 +32,66 @@ fun AppTopBar(
     onClearArticles: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    TopAppBar(
+    Column(
         modifier = modifier,
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background
-        ),
-        title = {
-            Column {
-                Text(
-                    text = stringResource(R.string.app_title),
-                    style = MaterialTheme.typography.displayLarge,
-                    color = MaterialTheme.colorScheme.onBackground
-                )
-
-                Spacer(modifier = Modifier.height(2.dp))
-
-                Text(
-                    text = subtitle,
-                    style = MaterialTheme.typography.labelMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                )
-            }
-        },
-        actions = {
-            Row {
-                IconButton(
-                    modifier = Modifier.size(36.dp),
-                    onClick = onRefreshArticles,
-                    colors = IconButtonDefaults.iconButtonColors(
-                        contentColor = MaterialTheme.colorScheme.onBackground
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
+        TopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.background
+            ),
+            title = {
+                Column {
+                    Text(
+                        text = stringResource(R.string.app_title),
+                        style = MaterialTheme.typography.displayLarge,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
-                ) {
-                    Icon(
-                        modifier = Modifier.size(14.dp),
-                        painter = painterResource(R.drawable.refresh),
-                        contentDescription = stringResource(R.string.refresh_articles)
+
+                    Spacer(modifier = Modifier.height(2.dp))
+
+                    Text(
+                        text = subtitle,
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
+            },
+            actions = {
+                Row {
+                    IconButton(
+                        modifier = Modifier.size(36.dp),
+                        onClick = onRefreshArticles,
+                        colors = IconButtonDefaults.iconButtonColors(
+                            contentColor = MaterialTheme.colorScheme.onBackground
+                        )
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(14.dp),
+                            painter = painterResource(R.drawable.refresh),
+                            contentDescription = stringResource(R.string.refresh_articles)
+                        )
+                    }
 
-                IconButton(
-                    modifier = Modifier.size(36.dp),
-                    onClick = onClearArticles,
-                    colors = IconButtonDefaults.iconButtonColors(
-                        contentColor = MaterialTheme.colorScheme.onBackground
-                    )
-                ) {
-                    Icon(
-                        modifier = Modifier.size(14.dp),
-                        painter = painterResource(R.drawable.delete),
-                        contentDescription = stringResource(R.string.clear_articles)
-                    )
+                    IconButton(
+                        modifier = Modifier.size(36.dp),
+                        onClick = onClearArticles,
+                        colors = IconButtonDefaults.iconButtonColors(
+                            contentColor = MaterialTheme.colorScheme.onBackground
+                        )
+                    ) {
+                        Icon(
+                            modifier = Modifier.size(14.dp),
+                            painter = painterResource(R.drawable.delete),
+                            contentDescription = stringResource(R.string.clear_articles)
+                        )
+                    }
                 }
             }
-        }
-    )
+        )
+
+        HorizontalDivider(color = MaterialTheme.colorScheme.outline)
+    }
 }
 
 @Preview(name = "Light", showBackground = true)

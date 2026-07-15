@@ -24,6 +24,7 @@ materialIconsExtended = "1.7.8"
 navigationCompose = "2.9.8"
 kotlinxCoroutinesAndroid = "1.11.0"
 coreSplashscreen = "1.2.0"
+coilBom = "3.5.0"
 
 [libraries]
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
@@ -66,6 +67,10 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+
+coil-bom = { module = "io.coil-kt.coil3:coil-bom", version.ref = "coilBom" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp" }
 
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

@@ -12,6 +12,9 @@ local.properties
 .externalNativeBuild/
 .cxx/
 
+# Design
+Sabbo (2)/
+
 # OS specific
 .DS_Store
 Thumbs.db
