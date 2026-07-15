@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -58,7 +59,9 @@ fun AppBottomNavigation(
         shape = RoundedCornerShape(50)
     ) {
         Row(
-            modifier = Modifier.padding(4.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(4.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             bottomTabs.forEach { tab ->
@@ -78,6 +81,7 @@ fun AppBottomNavigation(
 
                 Box(
                     modifier = Modifier
+                        .weight(1f)
                         .clip(RoundedCornerShape(50))
                         .background(backgroundColor)
                         .clickable(
@@ -90,13 +94,14 @@ fun AppBottomNavigation(
                                 restoreState = true
                             }
                         }
-                        .padding(horizontal = 30.dp, vertical = 10.dp),
+                        .padding(horizontal = 8.dp, vertical = 10.dp),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = stringResource(tab.labelRes),
                         color = contentColor,
-                        style = MaterialTheme.typography.labelLarge
+                        style = MaterialTheme.typography.labelLarge,
+                        maxLines = 1
                     )
                 }
             }

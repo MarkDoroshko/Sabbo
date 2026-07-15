@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -58,7 +59,9 @@ fun AppTopBar(
                 }
             },
             actions = {
-                Row {
+                Row(
+                    modifier = Modifier.padding(end = 16.dp)
+                ) {
                     IconButton(
                         modifier = Modifier.size(36.dp),
                         onClick = onRefreshArticles,
@@ -67,7 +70,7 @@ fun AppTopBar(
                         )
                     ) {
                         Icon(
-                            modifier = Modifier.size(14.dp),
+                            modifier = Modifier.size(16.dp),
                             painter = painterResource(R.drawable.refresh),
                             contentDescription = stringResource(R.string.refresh_articles)
                         )
@@ -81,7 +84,7 @@ fun AppTopBar(
                         )
                     ) {
                         Icon(
-                            modifier = Modifier.size(14.dp),
+                            modifier = Modifier.size(16.dp),
                             painter = painterResource(R.drawable.delete),
                             contentDescription = stringResource(R.string.clear_articles)
                         )
