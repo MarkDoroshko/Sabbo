@@ -17,6 +17,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.presentation.components.AppBottomNavigation
 import com.example.presentation.screen.feed.FeedRoute
+import com.example.presentation.screen.topics.TopicsRoute
 
 @Composable
 fun NavGraph(
@@ -47,7 +48,7 @@ fun NavGraph(
             startDestination = Feed
         ) {
             composable<Feed> { FeedRoute() }
-            composable<Topics> { /* экран тем */ }
+            composable<Topics> { TopicsRoute() }
             composable<Settings> { /* экран настроек */ }
         }
     }

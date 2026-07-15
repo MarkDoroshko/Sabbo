@@ -21,4 +21,12 @@
     <string name="time_minutes_ago">%d мин</string>
     <string name="time_hours_ago">%d ч</string>
     <string name="time_days_ago">%d д</string>
+
+    <string name="topics_screen_title">Подписки</string>
+    <string name="topics_screen_description">Добавьте темы, и Саббо будет приносить статьи и новости только по ним.</string>
+    <string name="topic_input_placeholder">например, Compose, Postgres…</string>
+    <string name="add_topic_button">Добавить</string>
+    <string name="topics_count_label">ВАШИ ТЕМЫ — %d</string>
+    <string name="topics_empty_message">Пока ни одной.</string>
+    <string name="remove_topic">Удалить тему</string>
 </resources>
