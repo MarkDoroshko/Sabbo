@@ -2,9 +2,9 @@ package com.example.presentation.screen.topics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.usecase.AddTopicUseCase
-import com.example.domain.usecase.GetAllTopicsUseCase
-import com.example.domain.usecase.RemoveTopicUseCase
+import com.example.domain.usecase.topic.AddTopicUseCase
+import com.example.domain.usecase.topic.GetAllTopicsUseCase
+import com.example.domain.usecase.topic.RemoveTopicUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,7 +18,7 @@ import javax.inject.Inject
 class TopicsViewModel @Inject constructor(
     private val addTopicUseCase: AddTopicUseCase,
     private val removeTopicUseCase: RemoveTopicUseCase,
-    private val getAllTopicsUseCase: GetAllTopicsUseCase
+    getAllTopicsUseCase: GetAllTopicsUseCase
 ) : ViewModel() {
     val topics: StateFlow<List<String>> = getAllTopicsUseCase()
         .stateIn(

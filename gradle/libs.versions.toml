@@ -25,6 +25,7 @@ navigationCompose = "2.9.8"
 kotlinxCoroutinesAndroid = "1.11.0"
 coreSplashscreen = "1.2.0"
 coilBom = "3.5.0"
+datastorePreferences = "1.2.1"
 
 [libraries]
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
@@ -67,6 +68,8 @@ androidx-navigation-compose = { module = "androidx.navigation:navigation-compose
 kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesAndroid" }
 
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 
 coil-bom = { module = "io.coil-kt.coil3:coil-bom", version.ref = "coilBom" }
 coil-compose = { module = "io.coil-kt.coil3:coil-compose" }

@@ -29,4 +29,27 @@
     <string name="topics_count_label">ВАШИ ТЕМЫ — %d</string>
     <string name="topics_empty_message">Пока ни одной.</string>
     <string name="remove_topic">Удалить тему</string>
+
+    <string name="settings_screen_title">Настройки</string>
+    <string name="settings_section_language">Язык</string>
+    <string name="settings_section_interval">Интервал обновления</string>
+    <string name="settings_section_notifications">Уведомления</string>
+
+    <string name="language_english">English</string>
+    <string name="language_russian">Русский</string>
+    <string name="language_french">Français</string>
+    <string name="language_german">Deutsch</string>
+
+    <string name="interval_15_min">15 минут</string>
+    <string name="interval_30_min">30 минут</string>
+    <string name="interval_1_hour">1 час</string>
+    <string name="interval_2_hours">2 часа</string>
+    <string name="interval_4_hours">4 часа</string>
+    <string name="interval_8_hours">8 часов</string>
+    <string name="interval_24_hours">24 часа</string>
+
+    <string name="push_notifications_label">Push-уведомления</string>
+    <string name="push_notifications_hint">Сообщать о новых статьях</string>
+    <string name="wifi_only_label">Только Wi-Fi</string>
+    <string name="wifi_only_hint">Не использовать мобильный трафик</string>
 </resources>

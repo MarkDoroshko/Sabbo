@@ -1,8 +1,10 @@
 package com.example.data.di
 
 import com.example.data.repository.ArticleRepositoryImpl
+import com.example.data.repository.SettingsRepositoryImpl
 import com.example.data.repository.TopicRepositoryImpl
 import com.example.domain.repository.ArticleRepository
+import com.example.domain.repository.SettingsRepository
 import com.example.domain.repository.TopicRepository
 import dagger.Binds
 import dagger.Module
@@ -20,4 +22,8 @@ interface RepositoryModule {
     @Binds
     @Singleton
     fun bindTopicRepository(impl: TopicRepositoryImpl): TopicRepository
+
+    @Binds
+    @Singleton
+    fun bindSettingsRepository(impl: SettingsRepositoryImpl): SettingsRepository
 }

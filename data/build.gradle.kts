@@ -61,6 +61,9 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)  // Kotlin-расширения для Android Core API
 
+    // Preferences DataStore
+    implementation(libs.androidx.datastore.preferences)
+
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit)
