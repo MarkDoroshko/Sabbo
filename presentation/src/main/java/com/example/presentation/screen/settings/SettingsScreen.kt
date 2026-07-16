@@ -88,9 +88,7 @@ fun SettingsScreen(
         modifier = modifier.fillMaxSize(),
         topBar = {
             AppTopBar(
-                subtitle = stringResource(R.string.settings_subtitle),
-                onRefreshArticles = {},
-                onClearArticles = {}
+                subtitle = stringResource(R.string.settings_subtitle)
             )
         },
         containerColor = MaterialTheme.colorScheme.background

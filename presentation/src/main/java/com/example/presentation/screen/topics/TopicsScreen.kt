@@ -85,9 +85,7 @@ fun TopicsScreen(
         modifier = modifier.fillMaxSize(),
         topBar = {
             AppTopBar(
-                subtitle = stringResource(R.string.topics_subtitle),
-                onRefreshArticles = {},
-                onClearArticles = {}
+                subtitle = stringResource(R.string.topics_subtitle)
             )
         },
         containerColor = MaterialTheme.colorScheme.background

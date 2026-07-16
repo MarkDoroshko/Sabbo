@@ -29,9 +29,9 @@ import com.example.presentation.theme.SabboTheme
 @Composable
 fun AppTopBar(
     subtitle: String,
-    onRefreshArticles: () -> Unit,
-    onClearArticles: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onRefreshArticles: (() -> Unit)? = null,
+    onClearArticles: (() -> Unit)? = null
 ) {
     Column(
         modifier = modifier,
@@ -62,32 +62,36 @@ fun AppTopBar(
                 Row(
                     modifier = Modifier.padding(end = 16.dp)
                 ) {
-                    IconButton(
-                        modifier = Modifier.size(36.dp),
-                        onClick = onRefreshArticles,
-                        colors = IconButtonDefaults.iconButtonColors(
-                            contentColor = MaterialTheme.colorScheme.onBackground
-                        )
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(16.dp),
-                            painter = painterResource(R.drawable.refresh),
-                            contentDescription = stringResource(R.string.refresh_articles)
-                        )
+                    if (onRefreshArticles != null) {
+                        IconButton(
+                            modifier = Modifier.size(36.dp),
+                            onClick = onRefreshArticles,
+                            colors = IconButtonDefaults.iconButtonColors(
+                                contentColor = MaterialTheme.colorScheme.onBackground
+                            )
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(16.dp),
+                                painter = painterResource(R.drawable.refresh),
+                                contentDescription = stringResource(R.string.refresh_articles)
+                            )
+                        }
                     }
 
-                    IconButton(
-                        modifier = Modifier.size(36.dp),
-                        onClick = onClearArticles,
-                        colors = IconButtonDefaults.iconButtonColors(
-                            contentColor = MaterialTheme.colorScheme.onBackground
-                        )
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(16.dp),
-                            painter = painterResource(R.drawable.delete),
-                            contentDescription = stringResource(R.string.clear_articles)
-                        )
+                    if (onClearArticles != null) {
+                        IconButton(
+                            modifier = Modifier.size(36.dp),
+                            onClick = onClearArticles,
+                            colors = IconButtonDefaults.iconButtonColors(
+                                contentColor = MaterialTheme.colorScheme.onBackground
+                            )
+                        ) {
+                            Icon(
+                                modifier = Modifier.size(16.dp),
+                                painter = painterResource(R.drawable.delete),
+                                contentDescription = stringResource(R.string.clear_articles)
+                            )
+                        }
                     }
                 }
             }
