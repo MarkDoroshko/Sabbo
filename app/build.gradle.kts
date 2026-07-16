@@ -20,9 +20,9 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false  // TODO: при release сделать true
+            isMinifyEnabled = true
             optimization {
-                enable = false
+                enable = true
             }
         }
     }
