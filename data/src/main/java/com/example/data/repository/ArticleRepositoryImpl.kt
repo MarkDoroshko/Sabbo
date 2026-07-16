@@ -55,7 +55,7 @@ class ArticleRepositoryImpl @Inject constructor(
     ): AppResult<Boolean> {
         return loadArticles(topic, language).map { articleDbModels ->
             val ids = articlesDao.addArticles(articleDbModels)
-            ids.any { it != 1L }
+            ids.any { it != -1L }
         }
     }
 
