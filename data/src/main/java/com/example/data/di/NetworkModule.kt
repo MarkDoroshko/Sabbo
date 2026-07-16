@@ -2,7 +2,7 @@ package com.example.data.di
 
 import com.example.data.BuildConfig
 import com.example.data.remote.dto.parseErrorBody
-import com.example.domain.entity.AppHttpException
+import com.example.data.remote.entity.AppHttpException
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

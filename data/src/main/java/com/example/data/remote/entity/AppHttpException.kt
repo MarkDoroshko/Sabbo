@@ -1,6 +1,6 @@
-package com.example.domain.entity
+package com.example.data.remote.entity
 
-import java.io.IOException
+import kotlinx.io.IOException
 
 data class AppHttpException(
     val code: Int,

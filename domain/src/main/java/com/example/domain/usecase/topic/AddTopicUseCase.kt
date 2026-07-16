@@ -5,11 +5,8 @@ import com.example.domain.error.map
 import com.example.domain.repository.ArticleRepository
 import com.example.domain.repository.SettingsRepository
 import com.example.domain.repository.TopicRepository
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 class AddTopicUseCase @Inject constructor(
     private val topicRepository: TopicRepository,

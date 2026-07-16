@@ -1,6 +1,6 @@
 package com.example.data.mapper
 
-import com.example.domain.entity.AppHttpException
+import com.example.data.remote.entity.AppHttpException
 import com.example.domain.error.DomainError
 import kotlinx.io.IOException
 
