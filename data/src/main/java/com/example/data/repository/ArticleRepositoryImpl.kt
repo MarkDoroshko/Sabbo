@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.work.Constraints
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.NetworkType
-import androidx.work.PeriodicWorkRequest
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.data.background.RefreshDataWorker
@@ -12,14 +11,16 @@ import com.example.data.local.dao.ArticlesDao
 import com.example.data.local.dao.TopicsDao
 import com.example.data.local.model.ArticleDbModel
 import com.example.data.mapper.toDbModels
+import com.example.data.mapper.toDomainError
 import com.example.data.mapper.toEntities
 import com.example.data.mapper.toQueryParam
 import com.example.data.remote.api.NewsApi
 import com.example.domain.entity.Article
 import com.example.domain.entity.Language
 import com.example.domain.entity.RefreshConfig
+import com.example.domain.error.AppResult
+import com.example.domain.error.map
 import com.example.domain.repository.ArticleRepository
-import com.example.domain.repository.SettingsRepository
 import io.ktor.utils.io.CancellationException
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -48,10 +49,14 @@ class ArticleRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun updateArticlesForTopic(topic: String, language: Language): Boolean {
-        val articles = loadArticles(topic, language)
-        val ids = articlesDao.addArticles(articles)
-        return ids.any { it != -1L }
+    override suspend fun updateArticlesForTopic(
+        topic: String,
+        language: Language
+    ): AppResult<Boolean> {
+        return loadArticles(topic, language).map { articleDbModels ->
+            val ids = articlesDao.addArticles(articleDbModels)
+            ids.any { it != 1L }
+        }
     }
 
     override suspend fun updateArticlesForAllTopics(language: Language): List<String> {
@@ -60,13 +65,15 @@ class ArticleRepositoryImpl @Inject constructor(
         return supervisorScope {
             topics.map { topicModel ->
                 async {
-                    try {
-                        if (updateArticlesForTopic(topicModel.topic, language)) topicModel.topic else null
-                    } catch (e: CancellationException) {
-                        throw e
-                    } catch (e: Exception) {
-                        Log.e("ArticleRepositoryImpl", "topic=${topicModel.topic}", e)
-                        null
+                    when (val result = updateArticlesForTopic(topicModel.topic, language)) {
+                        is AppResult.Success -> if (result.data) topicModel.topic else null
+                        is AppResult.Failure -> {
+                            Log.e(
+                                "ArticleRepositoryImpl",
+                                "topic=${topicModel.topic}: ${result.error}"
+                            )
+                            null
+                        }
                     }
                 }
             }.awaitAll().filterNotNull()
@@ -99,14 +106,17 @@ class ArticleRepositoryImpl @Inject constructor(
         )
     }
 
-    private suspend fun loadArticles(topic: String, language: Language): List<ArticleDbModel> {
+    private suspend fun loadArticles(
+        topic: String,
+        language: Language
+    ): AppResult<List<ArticleDbModel>> {
         return try {
-            newsApi.getArticles(topic, language.toQueryParam()).toDbModels(topic)
+            AppResult.Success(newsApi.getArticles(topic, language.toQueryParam()).toDbModels(topic))
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
             Log.e("ArticleRepositoryImpl", e.stackTraceToString())
-            throw e
+            AppResult.Failure(e.toDomainError())
         }
     }
 }

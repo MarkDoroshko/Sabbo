@@ -16,8 +16,6 @@
     <string name="feed_empty_subtitle">Обновите ленту, чтобы загрузить статьи.</string>
     <string name="articles_cleared_message">Статьи очищены</string>
     <string name="read_article">Читать</string>
-    <string name="refresh_failed_partial">Не удалось обновить часть тем</string>
-    <string name="no_internet_connection">Нет соединения</string>
     <string name="clear_articles_failed">Не удалось очистить статьи</string>
 
     <string name="time_just_now">только что</string>
@@ -55,4 +53,9 @@
     <string name="push_notifications_hint">Сообщать о новых статьях</string>
     <string name="wifi_only_label">Только Wi-Fi</string>
     <string name="wifi_only_hint">Не использовать мобильный трафик</string>
+
+    <string name="no_internet_connection">Нет соединения с интернетом</string>
+    <string name="server_error">Ошибка сервера</string>
+    <string name="rate_limited">Превышен лимит запросов</string>
+    <string name="refresh_failed_partial">Непредвиденная ошибка</string>
 </resources>

@@ -2,14 +2,18 @@ package com.example.presentation.screen.topics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.error.DomainError
+import com.example.domain.error.fold
 import com.example.domain.usecase.topic.AddTopicUseCase
 import com.example.domain.usecase.topic.GetAllTopicsUseCase
 import com.example.domain.usecase.topic.RemoveTopicUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,6 +24,9 @@ class TopicsViewModel @Inject constructor(
     private val removeTopicUseCase: RemoveTopicUseCase,
     getAllTopicsUseCase: GetAllTopicsUseCase
 ) : ViewModel() {
+    private val _effect = Channel<TopicsEffect>(Channel.BUFFERED)
+    val effect = _effect.receiveAsFlow()
+
     val topics: StateFlow<List<String>> = getAllTopicsUseCase()
         .stateIn(
             scope = viewModelScope,
@@ -38,7 +45,14 @@ class TopicsViewModel @Inject constructor(
         val topic = _topicInput.value.trim()
         if (topic.isEmpty() || topics.value.contains(topic)) return
 
-        viewModelScope.launch { addTopicUseCase(topic) }
+        viewModelScope.launch {
+            addTopicUseCase(topic).fold(
+                onSuccess = {},
+                onFailure = { error ->
+                    _effect.send(TopicsEffect.AddTopicFailed(error))
+                }
+            )
+        }
         _topicInput.value = ""
     }
 
@@ -47,4 +61,8 @@ class TopicsViewModel @Inject constructor(
             removeTopicUseCase(topic)
         }
     }
+}
+
+sealed interface TopicsEffect {
+    data class AddTopicFailed(val error: DomainError) : TopicsEffect
 }

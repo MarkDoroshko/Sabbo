@@ -3,6 +3,7 @@ package com.example.domain.repository
 import com.example.domain.entity.Article
 import com.example.domain.entity.Language
 import com.example.domain.entity.RefreshConfig
+import com.example.domain.error.AppResult
 import kotlinx.coroutines.flow.Flow
 
 interface ArticleRepository {
@@ -10,7 +11,7 @@ interface ArticleRepository {
 
     fun getArticlesByTopics(topics: List<String>): Flow<List<Article>>
 
-    suspend fun updateArticlesForTopic(topic: String, language: Language): Boolean
+    suspend fun updateArticlesForTopic(topic: String, language: Language): AppResult<Boolean>
 
     suspend fun updateArticlesForAllTopics(language: Language): List<String>
 

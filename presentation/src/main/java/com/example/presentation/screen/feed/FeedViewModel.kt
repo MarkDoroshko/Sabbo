@@ -1,19 +1,18 @@
 package com.example.presentation.screen.feed
 
-import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.entity.AppHttpException
 import com.example.domain.entity.Article
+import com.example.domain.error.DomainError
+import com.example.domain.error.fold
 import com.example.domain.usecase.article.ClearAllArticlesUseCase
 import com.example.domain.usecase.topic.GetAllTopicsUseCase
 import com.example.domain.usecase.article.GetArticlesByTopicUseCase
 import com.example.domain.usecase.article.GetArticlesByTopicsUseCase
 import com.example.domain.usecase.article.UpdateArticlesForAllTopicsUseCase
 import com.example.domain.usecase.article.UpdateArticlesForTopicUseCase
-import com.example.presentation.R
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
@@ -29,7 +28,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
-    @param:ApplicationContext private val context: Context,
     private val clearAllArticlesUseCase: ClearAllArticlesUseCase,
     private val updateArticlesForAllTopicsUseCase: UpdateArticlesForAllTopicsUseCase,
     private val updateArticlesForTopicUseCase: UpdateArticlesForTopicUseCase,
@@ -84,21 +82,18 @@ class FeedViewModel @Inject constructor(
     private fun refreshArticles() {
         viewModelScope.launch {
             val topic = _state.value.selectedTopic
-            try {
-                if (topic == null) {
-                    val updatedTopics = updateArticlesForAllTopicsUseCase()
-                    if (updatedTopics.size < _state.value.topics.size) {
-                        _effect.send(FeedEffect.RefreshFailed(context.getString(R.string.refresh_failed_partial)))
-                    }
-                } else {
-                    updateArticlesForTopicUseCase(topic)
+            if (topic == null) {
+                val updatedTopics = updateArticlesForAllTopicsUseCase()
+                if (updatedTopics.size < _state.value.topics.size) {
+                    _effect.send(FeedEffect.RefreshPartial)
                 }
-            } catch (e: CancellationException) {
-                throw e
-            } catch (e: AppHttpException) {
-                _effect.send(FeedEffect.RefreshFailed(e.message))
-            } catch (e: IOException) {
-                _effect.send(FeedEffect.RefreshFailed(context.getString(R.string.no_internet_connection)))
+            } else {
+                updateArticlesForTopicUseCase(topic).fold(
+                    onSuccess = {},
+                    onFailure = { error ->
+                        _effect.send(FeedEffect.RefreshFailed(error))
+                    }
+                )
             }
         }
     }
@@ -111,7 +106,7 @@ class FeedViewModel @Inject constructor(
             } catch (e: CancellationException) {
                 throw e
             } catch (e: Exception) {
-                _effect.send(FeedEffect.ClearFailed(e.message ?: context.getString(R.string.clear_articles_failed)))
+                _effect.send(FeedEffect.ClearFailed(e.message))
             }
         }
     }
@@ -138,8 +133,9 @@ sealed interface FeedIntent {
 }
 
 sealed interface FeedEffect {
-    data object ArticlesCleared : FeedEffect                    // снэкбар
-    data class RefreshFailed(val message: String) : FeedEffect  // тост
-    data class ClearFailed(val message: String) : FeedEffect    // тост
+    data object ArticlesCleared : FeedEffect                       // снэкбар
+    data object RefreshPartial : FeedEffect                        // тост, часть тем не обновилась
+    data class RefreshFailed(val error: DomainError) : FeedEffect  // тост
+    data class ClearFailed(val message: String?) : FeedEffect      // тост
     data class NavigateToArticle(val url: String) : FeedEffect
 }

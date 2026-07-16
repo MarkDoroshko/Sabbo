@@ -1,5 +1,6 @@
 package com.example.presentation.screen.topics
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -22,11 +23,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -36,6 +39,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.presentation.R
 import com.example.presentation.components.AppTopBar
+import com.example.presentation.mapper.toMessage
 import com.example.presentation.theme.SabboTheme
 
 @Composable
@@ -45,6 +49,18 @@ fun TopicsRoute(
     val viewModel: TopicsViewModel = hiltViewModel()
     val topics by viewModel.topics.collectAsStateWithLifecycle()
     val topicInput by viewModel.topicInput.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is TopicsEffect.AddTopicFailed -> Toast.makeText(
+                    context, effect.error.toMessage(context), Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
 
     TopicsScreen(
         topics = topics,
