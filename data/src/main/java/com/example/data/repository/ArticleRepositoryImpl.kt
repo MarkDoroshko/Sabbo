@@ -67,13 +67,7 @@ class ArticleRepositoryImpl @Inject constructor(
                 async {
                     when (val result = updateArticlesForTopic(topicModel.topic, language)) {
                         is AppResult.Success -> if (result.data) topicModel.topic else null
-                        is AppResult.Failure -> {
-                            Log.e(
-                                "ArticleRepositoryImpl",
-                                "topic=${topicModel.topic}: ${result.error}"
-                            )
-                            null
-                        }
+                        is AppResult.Failure -> null
                     }
                 }
             }.awaitAll().filterNotNull()
@@ -115,7 +109,7 @@ class ArticleRepositoryImpl @Inject constructor(
         } catch (e: CancellationException) {
             throw e
         } catch (e: Exception) {
-            Log.e("ArticleRepositoryImpl", e.stackTraceToString())
+            Log.e("ArticleRepositoryImpl", "topic=$topic: ${e.stackTraceToString()}")
             AppResult.Failure(e.toDomainError())
         }
     }
