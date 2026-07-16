@@ -39,7 +39,7 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.presentation.R
 import com.example.presentation.components.AppTopBar
-import com.example.presentation.mapper.toMessage
+import com.example.presentation.mapper.toMessageRes
 import com.example.presentation.theme.SabboTheme
 
 @Composable
@@ -56,7 +56,7 @@ fun TopicsRoute(
         viewModel.effect.collect { effect ->
             when (effect) {
                 is TopicsEffect.AddTopicFailed -> Toast.makeText(
-                    context, effect.error.toMessage(context), Toast.LENGTH_SHORT
+                    context, effect.error.toMessageRes(), Toast.LENGTH_SHORT
                 ).show()
             }
         }

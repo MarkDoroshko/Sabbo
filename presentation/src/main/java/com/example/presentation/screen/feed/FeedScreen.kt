@@ -49,7 +49,7 @@ import coil3.compose.AsyncImage
 import com.example.domain.entity.Article
 import com.example.presentation.R
 import com.example.presentation.components.AppTopBar
-import com.example.presentation.mapper.toMessage
+import com.example.presentation.mapper.toMessageRes
 import com.example.presentation.theme.SabboTheme
 import kotlinx.coroutines.launch
 
@@ -85,7 +85,7 @@ fun FeedRoute(
                 ).show()
 
                 is FeedEffect.RefreshFailed -> Toast.makeText(
-                    context, effect.error.toMessage(context), Toast.LENGTH_SHORT
+                    context, effect.error.toMessageRes(), Toast.LENGTH_SHORT
                 ).show()
 
                 is FeedEffect.NavigateToArticle -> context.startActivity(
