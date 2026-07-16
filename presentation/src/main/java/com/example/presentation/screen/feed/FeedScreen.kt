@@ -64,6 +64,8 @@ fun FeedRoute(
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
     val clearedMessage = stringResource(R.string.articles_cleared_message)
+    val refreshFailedMessage = stringResource(R.string.refresh_failed_partial)
+    val clearFailedMessage = stringResource(R.string.clear_articles_failed)
 
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
@@ -73,12 +75,12 @@ fun FeedRoute(
                 }
 
                 FeedEffect.RefreshPartial -> Toast.makeText(
-                    context, context.getString(R.string.refresh_failed_partial), Toast.LENGTH_SHORT
+                    context, refreshFailedMessage, Toast.LENGTH_SHORT
                 ).show()
 
                 is FeedEffect.ClearFailed -> Toast.makeText(
                     context,
-                    effect.message ?: context.getString(R.string.clear_articles_failed),
+                    effect.message ?: clearFailedMessage,
                     Toast.LENGTH_SHORT
                 ).show()
 
@@ -121,7 +123,8 @@ fun FeedScreen(
                 subtitle = if (state.selectedTopic == null) stringResource(
                     R.string.feed_subtitle_all_topics,
                     state.articles.size
-                ) else stringResource(R.string.feed_subtitle_specific_topic,
+                ) else stringResource(
+                    R.string.feed_subtitle_specific_topic,
                     state.selectedTopic.uppercase()
                 ),
                 onRefreshArticles = onRefreshArticles,

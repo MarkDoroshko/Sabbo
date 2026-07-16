@@ -2,8 +2,8 @@ package com.example.presentation.screen.topics
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.error.AppResult
 import com.example.domain.error.DomainError
-import com.example.domain.error.fold
 import com.example.domain.usecase.topic.AddTopicUseCase
 import com.example.domain.usecase.topic.GetAllTopicsUseCase
 import com.example.domain.usecase.topic.RemoveTopicUseCase
@@ -46,12 +46,8 @@ class TopicsViewModel @Inject constructor(
         if (topic.isEmpty() || topics.value.contains(topic)) return
 
         viewModelScope.launch {
-            addTopicUseCase(topic).fold(
-                onSuccess = {},
-                onFailure = { error ->
-                    _effect.send(TopicsEffect.AddTopicFailed(error))
-                }
-            )
+            val result = addTopicUseCase(topic)
+            if (result is AppResult.Failure) _effect.send(TopicsEffect.AddTopicFailed(result.error))
         }
         _topicInput.value = ""
     }

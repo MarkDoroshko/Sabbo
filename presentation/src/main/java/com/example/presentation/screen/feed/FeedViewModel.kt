@@ -2,16 +2,15 @@ package com.example.presentation.screen.feed
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.entity.AppHttpException
 import com.example.domain.entity.Article
+import com.example.domain.error.AppResult
 import com.example.domain.error.DomainError
-import com.example.domain.error.fold
 import com.example.domain.usecase.article.ClearAllArticlesUseCase
-import com.example.domain.usecase.topic.GetAllTopicsUseCase
 import com.example.domain.usecase.article.GetArticlesByTopicUseCase
 import com.example.domain.usecase.article.GetArticlesByTopicsUseCase
 import com.example.domain.usecase.article.UpdateArticlesForAllTopicsUseCase
 import com.example.domain.usecase.article.UpdateArticlesForTopicUseCase
+import com.example.domain.usecase.topic.GetAllTopicsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -23,7 +22,6 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -88,12 +86,8 @@ class FeedViewModel @Inject constructor(
                     _effect.send(FeedEffect.RefreshPartial)
                 }
             } else {
-                updateArticlesForTopicUseCase(topic).fold(
-                    onSuccess = {},
-                    onFailure = { error ->
-                        _effect.send(FeedEffect.RefreshFailed(error))
-                    }
-                )
+                val result = updateArticlesForTopicUseCase(topic)
+                if (result is AppResult.Failure) _effect.send(FeedEffect.RefreshFailed(result.error))
             }
         }
     }
